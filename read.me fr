@@ -1,0 +1,108 @@
+# 🔐 TP Pratique : Création et Configuration d'un Groupe de Sécurité AWS
+
+> Un lab AWS pratique pour créer et configurer un Groupe de Sécurité pour vos instances EC2, en appliquant le principe du moindre privilège.
+
+---
+
+## 📋 Description
+
+Ce TP pratique AWS vous guide pas à pas pour :
+
+- 🛡️ Créer un **Groupe de Sécurité** (firewall virtuel) pour vos instances EC2
+- ⚙️ Configurer des **règles d'entrée/sortie** précises (inbound/outbound)
+- ✅ Appliquer les **bonnes pratiques de sécurité** (principe du moindre privilège)
+
+Idéal pour les administrateurs débutants et ingénieurs cloud, ce lab vous apprend à protéger vos ressources AWS contre les accès non autorisés.
+
+---
+
+## 🏷️ Mots-clés
+
+`Groupe de Sécurité AWS` · `Règles de Sécurité EC2` · `Sécurité Réseau` · `Règles Inbound Outbound` · `Protection Serveur EC2` · `Gestion d'Accès EC2`
+
+---
+
+## ❓ Contexte : Pourquoi ce TP ?
+
+Les groupes de sécurité AWS sont essentiels pour :
+
+- **Contrôler le trafic** vers vos instances (autoriser uniquement ce qui est nécessaire)
+- **Éviter les attaques** (ports ouverts = risques potentiels)
+- **Isoler les environnements** (ex : un SG pour les bases de données, un autre pour le web)
+
+> ⚠️ **Problème courant :** Des règles trop permissives (`0.0.0.0/0` sur tous les ports) peuvent exposer vos ressources à des cyberattaques.
+
+---
+
+## 🚀 Consignes (Étapes Détaillées)
+
+### Étape 1 — Création du Groupe de Sécurité
+
+1. Allez dans la **console EC2** → **Security Groups** → **Create Security Group**
+2. Nommez-le (ex : `TP-Web-Server-SG`)
+3. Ajoutez une description claire (ex : *« Autorise HTTP/HTTPS/SSH depuis mon IP »*)
+4. Sélectionnez le **VPC par défaut** (ou un VPC existant)
+
+---
+
+### Étape 2 — Configuration des Règles Inbound (Entrantes)
+
+| Règle | Protocole | Port | Source |
+|-------|-----------|------|--------|
+| SSH   | TCP | 22  | Votre IP publique (ou un range IP spécifique) |
+| HTTP  | TCP | 80  | `0.0.0.0/0` (autorise tout le web) |
+| HTTPS | TCP | 443 | `0.0.0.0/0` |
+
+---
+
+### Étape 3 — Configuration des Règles Outbound (Sortantes)
+
+- Par défaut, AWS **autorise tout le trafic sortant**.
+- Pour durcir la sécurité, **limitez aux ports nécessaires** (ex : HTTP/HTTPS seulement).
+
+---
+
+### Étape 4 — Association à une Instance EC2
+
+1. Allez dans **Instances** → Sélectionnez votre instance
+2. Cliquez sur **Actions** → **Security** → **Change Security Groups**
+3. Ajoutez votre nouveau groupe (`TP-Web-Server-SG`)
+
+---
+
+### Étape 5 — Test des Règles
+
+- Tentez une connexion SSH pour vérifier que le port 22 est accessible depuis votre IP uniquement
+- Ouvrez un navigateur et accédez à l'IP publique de votre instance pour tester HTTP/HTTPS
+- Vérifiez que les ports non autorisés sont bien bloqués
+
+---
+
+## 🎓 Ce Que Vous Avez Appris
+
+- ✅ Créer un Security Group et configurer des règles précises
+- ✅ Appliquer le **principe du moindre privilège** (ne pas ouvrir tous les ports)
+- ✅ Associer un SG à une instance EC2
+- ✅ Tester la connectivité pour valider les règles
+
+---
+
+## 📚 Prérequis
+
+- Un compte AWS actif
+- Connaissances de base de la console AWS
+- Une instance EC2 en cours d'exécution (ou prête à être lancée)
+
+---
+
+## 🔗 Ressources Utiles
+
+- [Documentation AWS Security Groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html)
+- [Console AWS EC2](https://console.aws.amazon.com/ec2/)
+- [AWS Well-Architected Framework – Pilier Sécurité](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html)
+
+---
+
+## 📄 Licence
+
+Ce lab est à des fins éducatives. N'hésitez pas à l'utiliser et l'adapter pour votre propre apprentissage ou enseignement.
